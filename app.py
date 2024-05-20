@@ -16,7 +16,7 @@ data = {
     'detectOrientation': 'false',
     'isTable': 'false',
     'scale': 'true',
-    'OCREngine': '1',
+    'OCREngine': '2',
     'detectCheckbox': 'false',
     'checkboxTemplate': '0',
 }
@@ -42,8 +42,10 @@ headers = {
 def read_root():
     try:
         uri = request.json['uri']
+        print(uri)
         response = httpx.post('https://api.ocr.space/parse/image', data=data, headers=headers,
                     files={'file': ('output-onlinepngtools.png', base64.b64decode(uri.strip().split(',')[1]), 'image/png')})
+        print(response.json())
         return response.json()['ParsedResults'][0]['TextOverlay']['Lines'][0]['LineText']
     except:return "error"
 
